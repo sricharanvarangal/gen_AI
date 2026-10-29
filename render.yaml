@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: talentverse-career-studio
+    runtime: python
+    plan: free
+    buildCommand: python -m compileall -q server.py
+    startCommand: python server.py
+    healthCheckPath: /api/health
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false

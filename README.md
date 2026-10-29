@@ -19,6 +19,12 @@ python3 server.py
 
 If Gemini is unavailable, the app stays usable in local demo mode and shows a clear provider warning instead of breaking the presentation.
 
+## Deploy on Render
+
+The repository includes a `render.yaml` Blueprint. In Render, create a new Blueprint and select this GitHub repository on the `main` branch. Render will build and start the web service using the Blueprint settings. Add `GEMINI_API_KEY` in Render when prompted to enable Gemini; without it, the app runs in local demo mode.
+
+The app stores records in `data/talentverse.json`. Render's free web service filesystem is ephemeral, so saved records can be lost when the service restarts or deploys. Use a persistent database or paid persistent disk if records need to survive those events.
+
 ## Demonstrated workflow
 
 `Text input → schema-guided extraction → validation → POST /api/records → data/talentverse.json → frontend confirmation`

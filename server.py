@@ -37,6 +37,7 @@ def load_dotenv() -> None:
 
 load_dotenv()
 PORT = int(os.environ.get("PORT", "3000"))
+HOST = os.environ.get("HOST", "0.0.0.0")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash-lite").strip()
 GEMINI_FALLBACK_MODEL = "gemini-2.5-flash-lite"
@@ -322,8 +323,8 @@ class TalentVerseHandler(SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     ensure_db()
-    server = ThreadingHTTPServer(("127.0.0.1", PORT), TalentVerseHandler)
-    print(f"TalentVerse Python server running at http://localhost:{PORT}")
+    server = ThreadingHTTPServer((HOST, PORT), TalentVerseHandler)
+    print(f"TalentVerse Python server listening on {HOST}:{PORT}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
