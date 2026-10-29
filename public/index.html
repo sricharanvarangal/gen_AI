@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f4e9">
+  <title>TalentVerse · Career remix studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="TalentVerse home">
+        <span class="brand-mark" aria-hidden="true">✳</span>
+        <span>talent<span>verse</span></span>
+      </a>
+      <div class="top-meta"><span class="status-dot"></span><span>YOUR PRIVATE PLAYGROUND</span><span class="divider">✦</span><span id="savedCount">0 SAVED INSIGHTS</span></div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-star">✳</span> THE CAREER REMIX STUDIO</div>
+          <h1>Your next move<br>is a <em>big idea.</em></h1>
+          <p>Drop in your experience, goals, or interview notes. We’ll turn the raw stuff into a plan you can actually use.</p>
+          <div class="hero-rule"><span>✦ AI-PROCESSED</span><span>✦ HUMAN-APPROVED</span><span>✦ ALL YOURS</span></div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <span class="art-spark spark-one">✳</span>
+          <span class="art-spark spark-two">✦</span>
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="hero-sticker"><span>MAKE<br>A<br>MOVE</span><b>↗</b></div>
+          <div class="hero-caption">GOOD THINGS<br>START WITH A NOTE</div>
+        </div>
+      </section>
+
+      <section class="workspace-grid" aria-label="Career insight workspace">
+        <aside class="rail">
+          <div class="rail-top"><div class="rail-label">PICK YOUR POWER-UP</div><span class="rail-doodle" aria-hidden="true">↴</span></div>
+          <button class="lens active" data-type="profile"><span class="num">01</span><span><strong>Profile builder</strong><small>Resume → experience graph</small></span><span class="arrow">↗</span></button>
+          <button class="lens" data-type="gap"><span class="num">02</span><span><strong>Skill-gap map</strong><small>Goal → learning milestones</small></span><span class="arrow">↗</span></button>
+          <button class="lens" data-type="match"><span class="num">03</span><span><strong>Role match</strong><small>Job post → fit score</small></span><span class="arrow">↗</span></button>
+          <button class="lens" data-type="portfolio"><span class="num">04</span><span><strong>Portfolio brief</strong><small>Interests → proof of work</small></span><span class="arrow">↗</span></button>
+          <button class="lens" data-type="interview"><span class="num">05</span><span><strong>Interview debrief</strong><small>Notes → next practice</small></span><span class="arrow">↗</span></button>
+          <div class="rail-note"><span class="lock" aria-hidden="true">✿</span><strong>Your ideas stay yours.</strong><br>Approved insights are saved right here in your local workspace.</div>
+          <div class="rail-scribble" aria-hidden="true">you got this!</div>
+        </aside>
+
+        <section class="canvas">
+          <div class="canvas-head">
+            <div><div class="kicker" id="modeKicker">PROFILE BUILDER</div><h2 id="modeTitle">Make your experience legible.</h2></div>
+            <span class="step-pill"><i>✦</i> STEP <b>1</b> OF 2</span>
+          </div>
+          <div class="input-card">
+            <div class="input-top"><label for="sourceText">GIVE US THE RAW MATERIAL</label><button id="sampleBtn" class="sample">✳ LOAD A SAMPLE</button></div>
+            <textarea id="sourceText" spellcheck="true" placeholder="Paste a resume, career goal, job description, portfolio idea, or interview notes…"></textarea>
+            <div class="input-foot"><span id="charCount">0 characters</span><span class="input-hint">THE MORE DETAIL, THE BETTER · 20 CHARACTERS MIN.</span></div>
+          </div>
+          <button id="analyzeBtn" class="primary"><span>Make some magic</span><span class="button-arrow">↗</span></button>
+          <div id="error" class="error" role="alert" hidden></div>
+
+          <div class="result-wrap" id="resultWrap" hidden>
+            <div class="result-head">
+              <div><div class="kicker">THE GOOD STUFF</div><h3>Here’s what we found.</h3><div id="providerNote" class="provider-note" hidden></div></div>
+              <div class="validation-badge"><span class="status-dot"></span><span id="validationText">VALIDATED</span></div>
+            </div>
+            <div id="resultContent" class="result-content"></div>
+            <div class="save-bar">
+              <div><span class="save-icon" aria-hidden="true">✓</span><span><strong>Looks like a keeper</strong><small>Give it a home in your insight vault.</small></span></div>
+              <button id="saveBtn" class="save">Save this gem <span>↗</span></button>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section class="vault">
+        <div class="vault-head"><div><div class="kicker">THE IDEA COLLECTION</div><h2>Your saved gems<span class="title-spark">✳</span></h2></div><span id="vaultCount" class="count">0 RECORDS</span></div>
+        <div id="records" class="records"><div class="empty-records"><span aria-hidden="true">✦</span><br>Your first big idea goes here.<br>Analyze something and save it to start your collection.</div></div>
+      </section>
+    </main>
+
+    <footer><span>TALENTVERSE ✳ CAREER REMIX STUDIO</span><span>MAKE YOUR NEXT MOVE COUNT <b>↗</b></span></footer>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>
