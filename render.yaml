@@ -7,5 +7,7 @@ services:
     startCommand: python server.py
     healthCheckPath: /api/health
     envVars:
+      - key: GEMINI_MODEL
+        value: gemini-3.5-flash-lite
       - key: GEMINI_API_KEY
         sync: false

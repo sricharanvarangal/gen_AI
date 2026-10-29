@@ -39,8 +39,8 @@ load_dotenv()
 PORT = int(os.environ.get("PORT", "3000"))
 HOST = os.environ.get("HOST", "0.0.0.0")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash-lite").strip()
-GEMINI_FALLBACK_MODEL = "gemini-2.5-flash-lite"
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.5-flash-lite").strip()
+GEMINI_FALLBACK_MODEL = "gemini-3.8-flash"
 
 SCHEMAS = {
     "profile": {
@@ -207,7 +207,7 @@ def gemini_extract(kind: str, text: str) -> tuple[dict[str, Any], str]:
               f"Analysis type: {kind}. User input:\n{text}")
     payload = {"systemInstruction": {"parts": [{"text": "You produce concise, accurate, structured career insights."}]}, "contents": [{"parts": [{"text": prompt}]}], "generationConfig": {"temperature": 0.2, "responseMimeType": "application/json", "responseSchema": GEMINI_SCHEMAS[kind]}}
     models = list(dict.fromkeys([GEMINI_MODEL, GEMINI_FALLBACK_MODEL]))
-    last_busy_error = None
+    last_model_error = None
     for model in models:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
         request = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"), headers={"Content-Type": "application/json", "x-goog-api-key": GEMINI_API_KEY}, method="POST")
@@ -216,8 +216,11 @@ def gemini_extract(kind: str, text: str) -> tuple[dict[str, Any], str]:
                 raw = json.loads(response.read().decode("utf-8"))
         except urllib.error.HTTPError as error:
             detail = error.read().decode("utf-8", errors="ignore")
-            if error.code in {404, 429, 500, 503}:
-                last_busy_error = f"Gemini model {model} is temporarily unavailable ({error.code})."
+            if error.code == 404:
+                last_model_error = f"Gemini model {model} was not found or is unavailable to this API key. Check GEMINI_MODEL and the key's model access."
+                continue
+            if error.code in {429, 500, 503}:
+                last_model_error = f"Gemini model {model} is temporarily unavailable ({error.code})."
                 continue
             if error.code in {400, 401, 403}:
                 raise RuntimeError("Gemini rejected the request. Check the API key, model access, and billing settings.") from RuntimeError(detail)
@@ -236,7 +239,7 @@ def gemini_extract(kind: str, text: str) -> tuple[dict[str, Any], str]:
         if not checked["valid"]:
             raise RuntimeError("Gemini returned a result that did not match the TalentVerse schema.")
         return result, model
-    raise RuntimeError(last_busy_error or "Gemini is temporarily unavailable. Please try again.")
+    raise RuntimeError(last_model_error or "Gemini is temporarily unavailable. Please try again.")
 
 
 def extract(kind: str, text: str) -> tuple[dict[str, Any], str, str | None]:
